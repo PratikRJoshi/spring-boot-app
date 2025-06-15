@@ -1,0 +1,33 @@
+# Application Details
+spring:
+  application:
+    name: spring-boot-app
+  mvc:
+    log-request-details: true
+
+# Logging configuration
+logging:
+  level:
+    # Log all incoming requests
+    org.springframework.web: INFO
+    # Log request/response details
+    org.springframework.web.filter.CommonsRequestLoggingFilter: INFO
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: INFO
+    # Log HTTP request/response
+    org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor: INFO
+    root: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# Enable and expose specific actuator endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info
+
+  endpoint:
+    health:
+      show-details: always

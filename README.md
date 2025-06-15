@@ -132,3 +132,11 @@ Add the `-Dspring-boot.run.jvmArguments` flag to the mvn command used for starti
   - **NGINX container as a reverse proxy**
 - **All services should be networked together, and the NGINX proxy should route requests to the Spring Boot app.**
 - **Documentation must be provided for building the Docker image and running the stack locally.**
+
+## Learning Notes
+
+Here are some markdown files with my learning notes:
+
+- [Java Async Programming Timeline](learning/java_async_programming_timeline.md)
+- [Reactive Programming](learning/reactive-programming-spring-summary.md)
+- [SpringBoot Learnings](learning/springboot_learnings.md)
