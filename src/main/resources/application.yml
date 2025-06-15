@@ -11,10 +11,11 @@ logging:
     # Log all incoming requests
     org.springframework.web: INFO
     # Log request/response details
-    org.springframework.web.filter.CommonsRequestLoggingFilter: INFO
-    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: INFO
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+    # Log HTTP request mapped to specific endpoints in controller
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: DEBUG
     # Log HTTP request/response
-    org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor: INFO
+    org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor: DEBUG
     root: INFO
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
