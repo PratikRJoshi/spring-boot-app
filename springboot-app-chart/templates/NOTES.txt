@@ -1,0 +1,50 @@
+{{- /*
+Helm NOTES.txt
+Shows helpful instructions on how to access the deployed app depending on service type or ingress.
+*/ -}}
+
+{{- if .Values.ingress.enabled }}
+Your application has been deployed with an Ingress!
+
+Access your app at:
+{{- range .Values.ingress.hosts }}
+  {{ $scheme := "http" -}}
+  {{- if $.Values.ingress.tls.enabled }}
+    {{ $scheme = "https" -}}
+  {{- end }}
+  - {{ $scheme }}://{{ .host }}{{ index .paths 0 }}
+{{- end }}
+
+{{- else if eq .Values.service.type "NodePort" }}
+Your application is exposed via NodePort.
+
+Run these commands to access your app:
+
+  NODE_IP=$(kubectl get nodes -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')
+  NODE_PORT=$(kubectl get svc {{ include "springboot-app-chart.fullname" . }} -o jsonpath='{.spec.ports[0].nodePort}')
+  echo "Access your app at: http://$NODE_IP:$NODE_PORT"
+
+{{- else if eq .Values.service.type "LoadBalancer" }}
+Your application is exposed via LoadBalancer.
+
+It may take a few minutes for the external IP to be assigned.
+
+Watch the status with:
+  kubectl get svc {{ include "springboot-app-chart.fullname" . }} --watch
+
+Once ready, access your app at:
+  EXTERNAL_IP=$(kubectl get svc {{ include "springboot-app-chart.fullname" . }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+  echo "http://$EXTERNAL_IP:{{ .Values.service.port }}"
+
+{{- else }}
+Your application is exposed via ClusterIP.
+
+To access your app locally, run this port-forward command:
+
+  POD_NAME=$(kubectl get pods -l {{ include "springboot-app-chart.selectorLabels" . | nindent 2 }} -o jsonpath='{.items[0].metadata.name}')
+  kubectl port-forward $POD_NAME 8080:{{ .Values.service.targetPort }}
+
+Then access your app at: http://127.0.0.1:8080
+
+{{- end }}
+
